@@ -6,9 +6,9 @@ function $(id) {
   return document.getElementById(id);
 }
 
-/************************************/
-/*  Paint device and paint context  */
-/************************************/
+/************************************************/
+/*  Paint device, paint context and dimensions  */
+/************************************************/
 
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
@@ -50,6 +50,10 @@ var plot = function plot(fn, range) {
   context.lineWidth = 3;
   context.stroke();
 };
+
+/*******************/
+/*  Function calls */
+/*******************/
 
 // Function 1
 plot(function (x) {
