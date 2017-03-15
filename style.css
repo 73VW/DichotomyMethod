@@ -1,5 +1,65 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+body{
+	background-color: rgb(4,147,114);
+	font-family: Arial;
+	padding :0;
+	margin: 0;
+	color: white;
+	font-size: 1.8vh;
+}
+
+header{
+	color: rgb(4,147,114);
+	width: 100%;
+	background-color: white;
+	margin:0;
+	padding: 0;
+}
+
+h1{
+	margin:0;
+	font-size: 4vh;
+	padding-top :1vh;
+	padding-bottom :1vh;
+	margin-left: 4vw;
+}
+
+.subheading{
+	margin:0;
+	padding-top :1vh;
+	padding-bottom :1vh;
+	margin-left: 6vw;
+}
+
+section{
+	height: 100vh;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	margin-bottom: 10vh;
+}
+
+footer{
+	color: rgb(4,147,114);
+	height: 20vh;
+	width: 92vw;
+	padding: 0;
+	padding-left: 4vw;
+	padding-right: 4vw;
+	background-color: white;
+	margin:0;
+	position: fixed;
+	bottom :0;
+	overflow: scroll;
+}
+
 canvas {
     border: 1px solid black;
     width: 500px;
     height: 300px;
+	background-color: white;
+	margin: 20px;
 }

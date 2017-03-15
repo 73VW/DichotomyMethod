@@ -1,14 +1,45 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Dichotomy Method</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-  <canvas id="canvas" width="1000px" height="600px">
-    Dichotomy Method graph.
-  </canvas>
-  </body>
-  <script type="text/javascript" src="AN_Labo2_EquipeB1.js"></script>
+<head>
+	<meta charset="utf-8">
+	<title>Dichotomy Method</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>
+		<h1>AN Labo2 EquipeB1</h1>
+		<h3 class="subheading">Solve with dichotomy method</h3>
+	</header>
+  
+	<section>
+		<canvas id="canvas" width="1280px" height="720px">
+			Dichotomy Method graph.
+		</canvas>
+		<script type="text/javascript" src="AN_Labo2_EquipeB1.js"></script>
+
+		<form>
+			<label for="function">Choose the function to solve</label><br/>
+			<input type="radio" name="function" value="f1" checked="checked" >sin(x) - x/13<br/>
+			<input type="radio" name="function" value="f2" >x / (1-x^2)<br/>
+		</form>
+		
+		<p>
+			<button type="button" name="solve" onclick="solve();" autofocus="autofocus">Solve</button>
+		</p>
+	</section>
+	
+	<footer>
+		<h3>Explications</h3>
+		
+		<p>(Utiliser la molette en pointant sur le bloc pour faire défiler les explications)</p>
+		
+    	<p>
+		TODO
+    	</p>
+		
+		<p>
+		Quentin Vaucher -- Axel Rieben -- Maël Pedretti ----- Groupe B1 ----- Algo Num, HE-Arc 2017
+		</p>
+	</footer>
+</body>
 </html>
