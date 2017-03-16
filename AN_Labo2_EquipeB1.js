@@ -55,19 +55,31 @@ var plot = function plot(fn, range) {
   }
 
   // Appearance
-  context.strokeStyle = "red";
-  context.lineWidth = 3;
+  context.strokeStyle = "pink";
+  context.lineWidth = 10;
   context.stroke();
 };
 
-/*************************************************************/
-/*  Function calls                                           */
-/*************************************************************/
+
+/***************/
+/*  Functions  */
+/***************/
 
 // Function 1
-plot(function (x) {
+var f1 = function(x) {
   return Math.sin(x) -x/13;
-}, [0, Math.PI * 4, -4, 4]);
+}
+
+// Function 2
+var f2 = function(x) {
+  return x / (1 - x*x);
+}
+
+
+
+// plot(function (x) {
+//   return Math.sin(x) -x/13;
+// }, [0, Math.PI * 4, -4, 4]);
 
 // Function 2
 // plot(function (x) {
@@ -80,24 +92,24 @@ plot(function (x) {
 
 //a : range left, b : range right, f : function to solve, a < b
 function dichotomy(a, b, f) {
-	fa = f(a);
-	mnew = a + b;
-	mold = 2 * mnew;
-	
-	while((mnew - mold) != 0) {
-		mold = mnew;
-		mnew = (a + b) / 2;
-		fm = f(mnew);
-		
-		if(fm * fa <= 0) {
-			b = mnew;
-		} else {
-			a = mnew;
-			fa = fm;
-		}
-	}
-	
-	return mnew;
+  fa = f(a);
+  mnew = a + b;
+  mold = 2 * mnew;
+
+  while((mnew - mold) != 0) {
+    mold = mnew;
+    mnew = (a + b) / 2;
+    fm = f(mnew);
+
+    if(fm * fa <= 0) {
+      b = mnew;
+    } else {
+      a = mnew;
+      fa = fm;
+    }
+  }
+
+  return mnew;
 }
 
 /*************************************************************/
@@ -105,5 +117,12 @@ function dichotomy(a, b, f) {
 /*************************************************************/
 
 function solve() {
-	
+  context.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+  if ($('f1').checked) {
+    plot(f1, [0, Math.PI * 4, -4, 4]);
+  } else {
+    plot(f2, [0, Math.PI * 4, -4, 4]);
+  }
+
 }
