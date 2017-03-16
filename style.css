@@ -47,7 +47,7 @@ h1{
 footer{
 	color: rgb(4,147,114);
 	height: 20vh;
-	width: 92vw;
+	width: 91vw;
 	padding: 0;
 	padding-left: 4vw;
 	padding-right: 4vw;
@@ -55,7 +55,7 @@ footer{
 	margin:0;
 	position: fixed;
 	bottom :0;
-	overflow: scroll;
+	overflow-y: scroll;
 }
 
 canvas {
