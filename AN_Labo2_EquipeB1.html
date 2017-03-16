@@ -4,6 +4,9 @@
 	<meta charset="utf-8">
 	<title>Dichotomy Method</title>
 	<link rel="stylesheet" href="style.css">
+	<script type="text/javascript" async
+  		src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
 </head>
 <body>
 	<header>
@@ -11,16 +14,46 @@
 		<h3 class="subheading">Solve with dichotomy method</h3>
 	</header>
   
-	<section>
+	<section id="main">
 		<canvas id="canvas" width="1280px" height="720px">
 			Dichotomy Method graph.
 		</canvas>
 		<script type="text/javascript" src="AN_Labo2_EquipeB1.js"></script>
-
 		<form>
-			<label for="function">Choose the function to solve</label><br/>
-			<input type="radio" name="function" value="f1" checked="checked" >sin(x) - x/13<br/>
-			<input type="radio" name="function" value="f2" >x / (1-x^2)<br/>
+			<label>Choose the function to solve</label><br/>
+			<input type="radio" id="f1" name="function" value="f1" checked="checked" >
+				<label for="f1">
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+					<mi>sin</mi>
+					<mo>(</mo>
+					<mi>x</mi>
+					<mo>)</mo>
+					<mo>-</mo>
+					<mfrac>
+						<mrow>
+							<mi>x</mi>
+						</mrow>
+						<mn>13</mn>
+					</mfrac>
+				</math>
+				</label><br/>
+			<input type="radio" id="f2" name="function" value="f2" >
+				<label for="f2">
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+					<mfrac>
+						<mi>x</mi>
+						<mrow>
+						<mn>1</mn>
+						<mo>-</mo>
+						<msup>
+							<mi>x</mi>
+							<mn>2</mn>
+						</msup>
+						</mrow>
+					</mfrac>
+				</math>
+				</label>
+			<br/>
 		</form>
 		
 		<p>
