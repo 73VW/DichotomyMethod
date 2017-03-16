@@ -55,11 +55,10 @@ var plot = function plot(fn, range) {
   }
 
   // Appearance
-  context.strokeStyle = "pink";
+  context.strokeStyle = "red";
   context.lineWidth = 10;
   context.stroke();
 };
-
 
 /***************/
 /*  Functions  */
@@ -74,17 +73,6 @@ var f1 = function(x) {
 var f2 = function(x) {
   return x / (1 - x*x);
 }
-
-
-
-// plot(function (x) {
-//   return Math.sin(x) -x/13;
-// }, [0, Math.PI * 4, -4, 4]);
-
-// Function 2
-// plot(function (x) {
-//   return x / (1 - x*x);
-// }, [0, Math.PI * 4, -4, 4]);
 
 /*************************************************************/
 /*  Dichotomy functions                                      */
@@ -124,5 +112,4 @@ function solve() {
   } else {
     plot(f2, [0, Math.PI * 4, -4, 4]);
   }
-
 }
