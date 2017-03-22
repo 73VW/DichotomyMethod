@@ -45,10 +45,11 @@ function windowToViewportConversion(point, windowRange) {
 function drawAxis(windowRange) {
   context.beginPath();
 
-
-
+  // x-axis
   context.moveTo(0, canvas.height/2);
   context.lineTo(canvas.width, canvas.height/2);
+
+  // y-axis
   context.moveTo(canvas.width/2, 0);
   context.lineTo(canvas.width/2, canvas.height);
 
@@ -74,7 +75,7 @@ function moveToStartPoint(fn, windowRange) {
 
 // Plot the specified function inside the specified range.
 // fn: Function to draw;
-// A four values array [xMin, xMax, yMin, yMax] which represent the range of the world coordinates system.
+// windowRange: A four values array [xMin, xMax, yMin, yMax] which represent the range of the world coordinates system.
 function plot(fn, windowRange) {
   drawAxis(windowRange);
   context.beginPath();
@@ -87,7 +88,7 @@ function plot(fn, windowRange) {
     point = [x, fn(x)];
     point = windowToViewportConversion(point, windowRange);
 
-    if (point[1] < 0 || point[1] > canvas.height) {
+    if (point[1] < 0 || point[1] > canvas.height) {  // Avoid ugly line between asymptotes
       context.moveTo(point[0], point[1]);
     } else {
       context.lineTo(point[0], point[1]);
