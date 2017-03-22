@@ -15,9 +15,9 @@ function $name(name) {
   return document.getElementsByName(name);
 }
 
-/***********************************************/
-/*  Paint device, paint context, viewportSize  */
-/***********************************************/
+/**********************************************************/
+/*  Paint device, paint context, viewportSize, axis, ...  */
+/**********************************************************/
 
 var canvas = $('canvas');
 var context = canvas.getContext('2d');
@@ -40,6 +40,28 @@ function windowToViewportConversion(point, windowRange) {
   return point;
 }
 
+// Draw axis acording to the specified range.
+// windowRange: A four values array [xMin, xMax, yMin, yMax] which represent the range of the world coordinates system.
+function drawAxis(windowRange) {
+  context.beginPath();
+
+
+
+  context.moveTo(0, canvas.height/2);
+  context.lineTo(canvas.width, canvas.height/2);
+  context.moveTo(canvas.width/2, 0);
+  context.lineTo(canvas.width/2, canvas.height);
+
+  // Appearance
+  {
+    context.strokeStyle = "black";
+    context.lineWidth = 5;
+    context.stroke();
+  }
+
+  context.closePath();
+}
+
 // Move to the first point to draw without drawing anything.
 // fn: Function to draw.
 // windowRange: A four values array [xMin, xMax, yMin, yMax] which represent the range of the world coordinates system.
@@ -54,17 +76,22 @@ function moveToStartPoint(fn, windowRange) {
 // fn: Function to draw;
 // A four values array [xMin, xMax, yMin, yMax] which represent the range of the world coordinates system.
 function plot(fn, windowRange) {
+  drawAxis(windowRange);
   context.beginPath();
 
   moveToStartPoint(fn, windowRange);
 
   var point;
 
-  for (let x = windowRange[0]; x < windowRange[1]; x+=0.2) {
+  for (let x = windowRange[0]; x <= windowRange[1]; x+=0.02) {
     point = [x, fn(x)];
     point = windowToViewportConversion(point, windowRange);
 
-    context.lineTo(point[0], point[1]);
+    if (point[1] < 0 || point[1] > canvas.height) {
+      context.moveTo(point[0], point[1]);
+    } else {
+      context.lineTo(point[0], point[1]);
+    }
   }
 
   // Appearance
@@ -73,7 +100,6 @@ function plot(fn, windowRange) {
     context.lineWidth = 5;
     context.stroke();
   }
-
   context.closePath();
 }
 
@@ -128,6 +154,6 @@ function solve() {
   if ($('f1').checked) {
     plot(f1, [-100, 100, -10, 10]);
   } else {
-    plot(f2, [-100, 100, -10, 10]);
+    plot(f2, [-10, 10, -1.4, 1.4]);
   }
 }
