@@ -1,11 +1,11 @@
-/*************************************************************/
-/*  Auhor : Axel Rieben, Maël Pedretti, Quentin Vaucher		 */
-/*	Date : 28 March 2017                                     */
-/*************************************************************/
+/***********************************************************/
+/*  Authors : Axel Rieben, Maël Pedretti, Quentin Vaucher	 */
+/*	Date : 28 March 2017                                   */
+/***********************************************************/
 
-/*************************************************************/
-/*  Tools : Easiest way to get element by id                 */
-/*************************************************************/
+/*******************************************************/
+/*  Tools : Easiest way to get element by id and name  */
+/*******************************************************/
 
 function $(id) {
   return document.getElementById(id);
@@ -15,62 +15,80 @@ function $name(name) {
   return document.getElementsByName(name);
 }
 
-/*************************************************************/
-/*  Paint device, paint context and dimensions               */
-/*************************************************************/
+/***********************************************/
+/*  Paint device, paint context, viewportSize  */
+/***********************************************/
 
 var canvas = $('canvas');
 var context = canvas.getContext('2d');
-var width = canvas.width;
-var height = canvas.height;
+var viewportSize = [canvas.width, canvas.height];
 
-/*******************/
-/*  Plot Function */
-/*******************/
+/********************/
+/*  Plot Functions  */
+/********************/
 
-// Source: https://www.quora.com/What-is-the-best-math-function-plotting-library-in-JavaScript
-// First arg is the function to plot
-// Second arg is a 4 values array which gives the unit used for the plotting ([xLeft, xRight, yTop, yBottom])
-var plot = function plot(fn, range) {
-  var widthScale = (width / (range[1] - range[0]));
-  var heightScale = (height / (range[3] - range[2]));
+// Convert a point from the world coordinates system (i.e. -100; 100) to the viewport coordinates system (i.e. canvas dimensions) and return it.
+// point: A two values array [x, y] which represent the point to convert.
+// windowRange: A four values array [xMin, xMax, yMin, yMax] which represent the range of the world coordinates system.
+// viewportSize: A two values array [width, height] which represent the dimensions of the viewport coordinates system.
+function windowToViewportConversion(point, windowRange) {
+  var windowSize = [(windowRange[1] - windowRange[0]), (windowRange[3] - windowRange[2])];
 
-  var first = true;
+  point[0] = ((viewportSize[0] / windowSize[0] * point[0]) + viewportSize[0] / 2); // x conversion
+  point[1] = ((-viewportSize[1] / windowSize[1] * point[1]) + viewportSize[1] / 2); // y conversion, "-" because (0, 0) is in top left corner
 
+  return point;
+}
+
+// Move to the first point to draw without drawing anything.
+// fn: Function to draw.
+// windowRange: A four values array [xMin, xMax, yMin, yMax] which represent the range of the world coordinates system.
+function moveToStartPoint(fn, windowRange) {
+  var startPoint = [windowRange[0], fn(windowRange[0])];
+  startPoint = windowToViewportConversion(startPoint, windowRange, viewportSize);
+
+  context.moveTo(startPoint[0], startPoint[1]);
+}
+
+// Plot the specified function inside the specified range.
+// fn: Function to draw;
+// A four values array [xMin, xMax, yMin, yMax] which represent the range of the world coordinates system.
+function plot(fn, windowRange) {
   context.beginPath();
 
-  for (var x = 0; x < width; x++) {
-    var xFnVal = (x / widthScale) - range[0];
-    var yGVal = (fn(xFnVal) - range[2]) * heightScale;
+  moveToStartPoint(fn, windowRange);
 
-    yGVal = height - yGVal; // 0,0 is top-left
+  var point;
 
-    if (first) {
-      context.moveTo(x, yGVal); // move to the beginning of the plotting without drawing
-      first = false;
-    }
-    else {
-      context.lineTo(x, yGVal);
-    }
+  for (let x = windowRange[0]; x < windowRange[1]; x+=0.2) {
+    point = [x, fn(x)];
+    point = windowToViewportConversion(point, windowRange);
+
+    context.lineTo(point[0], point[1]);
   }
 
   // Appearance
-  context.strokeStyle = "red";
-  context.lineWidth = 10;
-  context.stroke();
-};
+  {
+    context.strokeStyle = "red";
+    context.lineWidth = 5;
+    context.stroke();
+  }
+
+  context.closePath();
+}
+
 
 /***************/
 /*  Functions  */
 /***************/
 
 // Function 1
-var f1 = function(x) {
-  return Math.sin(x) -x/13;
+function f1(x) {
+  return Math.sin(x) - (x / 13);
 }
 
 // Function 2
-var f2 = function(x) {
+function f2(x) {
   return x / (1 - x*x);
 }
 
@@ -100,16 +118,16 @@ function dichotomy(a, b, f) {
   return mnew;
 }
 
-/*************************************************************/
-/*  User interactions	                                     */
-/*************************************************************/
+/***********************/
+/*  User interactions	 */
+/***********************/
 
 function solve() {
   context.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
 
   if ($('f1').checked) {
-    plot(f1, [0, Math.PI * 4, -4, 4]);
+    plot(f1, [-100, 100, -10, 10]);
   } else {
-    plot(f2, [0, Math.PI * 4, -4, 4]);
+    plot(f2, [-100, 100, -10, 10]);
   }
 }
