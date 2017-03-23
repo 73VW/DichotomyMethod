@@ -7,6 +7,9 @@
 	<script type="text/javascript" async
   		src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
 	</script>
+	<!-- Uncomment to use Ploty librairie -->
+	<!-- <script src="plotly-latest.min.js"></script> -->
+	
 </head>
 <body>
 	<header>
@@ -15,6 +18,8 @@
 	</header>
 
 	<section id="main">
+		<!-- Uncomment to use Ploty librairie -->
+		<!-- <div id="plot" style="width: 1280px; height: 720px;"></div> -->
 		<canvas id="canvas" width="1280px" height="720px">
 			Dichotomy Method graph.
 		</canvas>
@@ -57,8 +62,9 @@
 		</form>
 
 		<p>
-			<button type="button" name="solve" onclick="solve();" autofocus="autofocus">Solve</button>
+			<button type="button" name="solve" onclick="solve()" autofocus="autofocus">Solve</button>
 		</p>
+		<div id="result"></div>
 	</section>
 
 	<footer>

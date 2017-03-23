@@ -1,12 +1,12 @@
 /***********************************************************/
-/*  Authors : Axel Rieben, Maël Pedretti, Quentin Vaucher	 */
-/*	Date : 28 March 2017                                   */
+/*  Authors : Axel Rieben, Maël Pedretti, Quentin Vaucher  */
+/*  Date : 28 March 2017                                   */
 /***********************************************************/
 
 /*******************************************************/
 /*  Tools : Easiest way to get element by id and name  */
 /*******************************************************/
-
+ 
 function $(id) {
   return document.getElementById(id);
 }
@@ -125,28 +125,28 @@ function f2(x) {
 
 //a : range left, b : range right, f : function to solve, a < b
 function dichotomy(a, b, f) {
-  fa = f(a);
-  mnew = a + b;
-  mold = 2 * mnew;
+  let fa = f(a);
+  let mNew = a + b;
+  let mOld = 2 * mNew;
 
-  while((mnew - mold) != 0) {
-    mold = mnew;
-    mnew = (a + b) / 2;
-    fm = f(mnew);
+  while((mNew - mOld) != 0) {
+    mOld = mNew;
+    mNew = (a + b) / 2;
+    fm = f(mNew);
 
     if(fm * fa <= 0) {
-      b = mnew;
+      b = mNew;
     } else {
-      a = mnew;
+      a = mNew;
       fa = fm;
     }
   }
 
-  return mnew;
+  return mNew;
 }
 
 /***********************/
-/*  User interactions	 */
+/*  HTML interactions	 */
 /***********************/
 
 function solve() {
@@ -154,7 +154,31 @@ function solve() {
 
   if ($('f1').checked) {
     plot(f1, [-100, 100, -10, 10]);
+    let listResults = dichotomy(-100, 100, f1);
+    printSolution(listResults);
   } else {
     plot(f2, [-10, 10, -1.4, 1.4]);
+    let listResults = dichotomy(-100, 100, f2);
+    printSolution(listResults);
   }
+}
+
+//Print the solution
+function printSolution(listResults)
+{
+  var div = $('result');
+  div.innerHTML = "";
+  div.innerHTML += "Racine(s) de la fonction : {";
+  div.innerHTML += listResults;
+  /*
+  for (let result of listResults)
+  {
+    div.innerHTML += result + "; ";
+  }
+  
+  div.innerHTML = div.innerHTML.substring(0, div.innerHTML.length-2); //Remove the last ;
+  */
+  div.innerHTML += "}";
+  
+  
 }
