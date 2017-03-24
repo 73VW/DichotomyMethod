@@ -6,7 +6,7 @@
 /*******************************************************/
 /*  Tools : Easiest way to get element by id and name  */
 /*******************************************************/
- 
+
 function $(id) {
   return document.getElementById(id);
 }
@@ -123,11 +123,24 @@ function f2(x) {
 /*  Dichotomy functions                                      */
 /*************************************************************/
 
+//THIS CAN BE USELESS !
+function loopDichotomy(a, b, f)
+{
+    let listResults = dichotomy(a, b, f);
+    printSolution(listResults);
+}
+
 //a : range left, b : range right, f : function to solve, a < b
 function dichotomy(a, b, f) {
+  if(a == -b) {
+      return null; //Don't work with symetric range
+  }
+
   let fa = f(a);
   let mNew = a + b;
   let mOld = 2 * mNew;
+  let fm;
+  let n = 0; // number of steps
 
   while((mNew - mOld) != 0) {
     mOld = mNew;
@@ -140,9 +153,19 @@ function dichotomy(a, b, f) {
       a = mNew;
       fa = fm;
     }
+
+    n++;
+    printError(calculateError(a, b, n));
   }
 
   return mNew;
+}
+
+//Equation from : https://fr.wikipedia.org/wiki/M%C3%A9thode_de_dichotomie
+//a : range left, b : range right, n : number of step
+function calculateError(a, b, n)
+{
+    return (b - a) / (2 * Math.pow(2, n)); //for each step the error is diminished by half
 }
 
 /***********************/
@@ -154,11 +177,10 @@ function solve() {
 
   if ($('f1').checked) {
     plot(f1, [-100, 100, -10, 10]);
-    let listResults = dichotomy(-100, 100, f1);
-    printSolution(listResults);
+    loopDichotomy(-101, 100, f1); //BAD RANGE !!!
   } else {
     plot(f2, [-10, 10, -1.4, 1.4]);
-    let listResults = dichotomy(-100, 100, f2);
+    let listResults = dichotomy(-101, 100, f2); //BAD RANGE !!!
     printSolution(listResults);
   }
 }
@@ -166,19 +188,26 @@ function solve() {
 //Print the solution
 function printSolution(listResults)
 {
-  var div = $('result');
+  let div = $('result');
   div.innerHTML = "";
-  div.innerHTML += "Racine(s) de la fonction : {";
+  div.innerHTML += "Root(s) of the function : {";
   div.innerHTML += listResults;
   /*
   for (let result of listResults)
   {
     div.innerHTML += result + "; ";
   }
-  
+
   div.innerHTML = div.innerHTML.substring(0, div.innerHTML.length-2); //Remove the last ;
   */
   div.innerHTML += "}";
-  
-  
+
+}
+
+//Print error
+function printError(error)
+{
+    let div = $('error');
+    div.innerHTML = "";
+    div.innerHTML = "Error approximation : " + error;
 }
