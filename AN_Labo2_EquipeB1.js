@@ -19,8 +19,23 @@ function $name(name) {
 /*  Plotly.js : Plot, show axis, ...  */
 /**************************************/
 
+// Generate the points between start and stop, according to f.
+// Intup: function, xStart, xStop
+// Output: two values array containing two arrays, respectively for x and y values
+function generatePointsToDraw(f, start, stop) {
+  var xValues = [];
+  var yValues = [];
+  var index = 0;
+  for (let i = start; i <= stop; i+= 0.02) {
+    xValues[index] = i;
+    yValues[index] = f(i);
+    index++;
+  }
+  return [xValues, yValues];
+}
+
 // Create readable data for Plotly and style them a little.
-// Input: The list of x values and y values + the name of the line
+// Input: The list of x values and y values [x, y] and the name of the line
 function creatingData(listPoints, name) {
   var data = {
     x: listPoints[0],
@@ -38,7 +53,7 @@ function creatingData(listPoints, name) {
 }
 
 // Plot the graph according to the given points
-// Input: list of x values and y values
+// Input: list of points that plotly can read
 function plot(data) {
   // Everything which is related to style
   var layout = {
@@ -78,98 +93,23 @@ function f2(x) {
   return x / (1 - x*x);
 }
 
-/***********************/
-/*  Points generation  */
-/***********************/
-
-// Generate the points between start and stop, according to fn.
-function generatePointsToDraw(fn, start, stop) {
-  var xValues = [];
-  var yValues = [];
-  var index = 0;
-  for (let i = start; i <= stop; i+= 0.02) {
-    xValues[index] = i;
-    yValues[index] = fn(i);
-    index++;
-  }
-  return [xValues, yValues];
-}
-
-/***********************/
-/*  HTML interactions	 */
-/***********************/
-
-// Launch the plotting according to which function was chosen.
-function solve() {
-  var data = [];
-  if ($('f1').checked) {
-    var listPoints = generatePointsToDraw(f1, -100, 100);
-    data[0] = creatingData(listPoints, "f1");
-    loopDichotomy(-100, 100, f1); //BAD RANGE !!!
-  } else { // f2 is plotted in three lines because of the asymptotes
-    var listPoints1 = generatePointsToDraw(f2, -100, -1);
-    var listPoints2 = generatePointsToDraw(f2, -1, 1);
-    var listPoints3 = generatePointsToDraw(f2, 1, 100);
-
-    data[0] = creatingData(listPoints1, '[-100, -1]');
-    data[1] = creatingData(listPoints2, '[-1, 1]');
-    data[2] = creatingData(listPoints3, '[1, 100]');
-
-    let listResults = dichotomy(-101, 100, f2); //BAD RANGE !!!
-    printSolution(listResults);
-  }
-  plot(data);
-}
-
-//Print the solution
-function printSolution(listResults)
-{
-  let div = $('result');
-  div.innerHTML = "";
-  div.innerHTML += "Root(s) of the function : {";
-  div.innerHTML += listResults;
-  /*
-  for (let result of listResults)
-  {
-    div.innerHTML += result + "; ";
-  }
-
-  div.innerHTML = div.innerHTML.substring(0, div.innerHTML.length-2); //Remove the last ;
-  */
-  div.innerHTML += "}";
-
-}
-
-//Print error
-function printError(error)
-{
-    let div = $('error');
-    div.innerHTML = "";
-    div.innerHTML = "Error approximation : " + error;
-}
-
 /*************************************************************/
 /*  Dichotomy functions                                      */
 /*************************************************************/
 
-//THIS CAN BE USELESS !
-function loopDichotomy(a, b, f)
-{
-    let listResults = dichotomy(a, b, f);
-    printSolution(listResults);
-}
-
-//a : range left, b : range right, f : function to solve, a < b
-function dichotomy(a, b, f) {
+// Dichotomy method. Must be performed on a continuous interval [a, b], which conatains a root.
+// Input: a, b, function
+// Output: two values array [result, error]
+function dichotomy(f, a, b) {
   if(a == -b) {
-      return null; //Don't work with symetric range
+    return null; //Don't work with symetric range
   }
 
-  let fa = f(a);
-  let mNew = a + b;
-  let mOld = 2 * mNew;
-  let fm;
-  let n = 0; // number of steps
+  var fa = f(a);
+  var mNew = a + b;
+  var mOld = 2 * mNew;
+  var fm;
+  var n = 0; // number of steps
 
   while((mNew - mOld) != 0) {
     mOld = mNew;
@@ -184,15 +124,94 @@ function dichotomy(a, b, f) {
     }
 
     n++;
-    printError(calculateError(a, b, n));
   }
 
-  return mNew;
+  return [mNew, calculateError(a, b, n)];
 }
 
 //Equation from : https://fr.wikipedia.org/wiki/M%C3%A9thode_de_dichotomie
-//a : range left, b : range right, n : number of step
+//Input: Continuous interval [a, b] in which the dichotomy was performed, and the number of steps.
 function calculateError(a, b, n)
 {
-    return (b - a) / (2 * Math.pow(2, n)); //for each step the error is diminished by half
+  return (b - a) / (2 * Math.pow(2, n)); //for each step the error is diminished by half
+}
+
+// Find all the valid intervals for the dichotomy method between [a, b].
+function findIntervals(f, a, b) {
+  var intervals = [];
+
+  while (a < b) {
+    if ((f(a) >= 0 && f(a+1) < 0) || (f(a) <= 0 && f(a+1) > 0)) { // Check if the interval contains a root
+      intervals.push([a, a+1]);
+    }
+    a++;
+  }
+
+  return intervals;
+}
+
+// Find every roots and print them with their error.
+function findRoots(f, a, b) {
+  var intervals = findIntervals(f, a, b);
+  var arrayResultError = [];
+
+  for (let i = 0; i < intervals.length; i++) {
+    arrayResultError.push(dichotomy(f, intervals[i][0], intervals[i][1]));
+  }
+
+  printSolution(arrayResultError[0]);
+  printError(arrayResultError[1]);
+}
+
+/***********************/
+/*  HTML interactions	 */
+/***********************/
+
+// Launch the plotting according to which function was chosen.
+function solve() {
+  var data = [];
+  if ($('f1').checked) {
+    var listPoints = generatePointsToDraw(f1, -100, 100);
+    data[0] = creatingData(listPoints, "f1");
+    findRoots(f1, -100, 100);
+  } else { // f2 is processed in three times because of the asymptotes
+    var listPoints1 = generatePointsToDraw(f2, -100, -1);
+    var listPoints2 = generatePointsToDraw(f2, -1, 1);
+    var listPoints3 = generatePointsToDraw(f2, 1, 100);
+
+    data[0] = creatingData(listPoints1, '[-100, -1]');
+    data[1] = creatingData(listPoints2, '[-1, 1]');
+    data[2] = creatingData(listPoints3, '[1, 100]');
+
+    findRoots(f2, -100, -1.01);
+    findRoots(f2, -1, 1);
+    findRoots(f2, 1, 100);
+  }
+  plot(data);
+}
+
+//Print the solutions
+function printSolution(results)
+{
+  var div = $('result');
+  div.innerHTML = "Root(s) of the function : { ";
+
+  for(var i = 0; i < results.length; i++) {
+    div.innerHTML += results[i] + " ";
+  }
+
+  div.innerHTML += "}";
+}
+
+//Print errors
+function printError(errors)
+{
+  var div = $('error');
+  div.innerHTML = "Errors approximation : { ";
+
+  for(var i = 0; i < errors.length; i++) {
+    div.innerHTML += errors[i] + " ";
+  }
+
+  div.innerHTML += "}";
 }
