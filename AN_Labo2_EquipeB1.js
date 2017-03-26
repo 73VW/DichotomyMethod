@@ -150,20 +150,17 @@ function findIntervals(f, a, b) {
   return intervals;
 }
 
-// Find every roots and print them with their error.
+// Find every roots with their error.
+// Output: array of arrays [[result, error], [..., ...]]
 function findRoots(f, a, b) {
   var intervals = findIntervals(f, a, b);
-  var results = [];
-  var errors = [];
-  var arrayResultError = [];
+  var arrayResultsErrors = [];
 
   for (let i = 0; i < intervals.length; i++) {
-    results.push(dichotomy(f, intervals[i][0], intervals[i][1])[0]);
-    errors.push(dichotomy(f, intervals[i][0], intervals[i][1])[1]);
+    arrayResultsErrors.push(dichotomy(f, intervals[i][0], intervals[i][1]));
   }
 
-  printSolutions(results);
-  printErrors(errors);
+  return arrayResultsErrors;
 }
 
 /***********************/
@@ -173,10 +170,13 @@ function findRoots(f, a, b) {
 // Launch the plotting according to which function was chosen.
 function solve() {
   var data = [];
+  var arrayResultsErrors;
   if ($('f1').checked) {
     var listPoints = generatePointsToDraw(f1, -100, 100);
+
     data[0] = creatingData(listPoints, "f1");
-    findRoots(f1, -100, 100);
+
+    arrayResultsErrors = (findRoots(f1, -100, 100));
   } else { // f2 is processed in three times because of the asymptotes
     var listPoints1 = generatePointsToDraw(f2, -100, -1);
     var listPoints2 = generatePointsToDraw(f2, -1, 1);
@@ -186,43 +186,30 @@ function solve() {
     data[1] = creatingData(listPoints2, '[-1, 1]');
     data[2] = creatingData(listPoints3, '[1, 100]');
 
-    findRoots(f2, -100, -1.01);
-    findRoots(f2, -1, 1);
-    findRoots(f2, 1, 100);
+    //arrayResultsErrors = (findRoots(f2, -100, -1)); 
+    arrayResultsErrors = (findRoots(f2, -1, 1));
+    //arrayResultsErrors += (findRoots(f2, 1, 100));
   }
+    console.log(arrayResultsErrors);
+  printSolutions(arrayResultsErrors);
   plot(data);
 }
 
-//Print the solutions
-function printSolutions(results)
-{
-  var div = $('result');
+function printSolutions(arrayResultsErrors) {
+  var divResults = $('result');
+  var divErrors = $('error');
 
-  div.innerHTML = "Root(s) of the function : { ";
+  divResults.innerHTML = "Root(s) of the function : { ";
+  divErrors.innerHTML = "Errors approximation : {";
 
-  for (let i = 0; i < results.length; i++) {
-    div.innerHTML += results[i];
-    if (i != results.length - 1) {
-      div.innerHTML += ", ";
+  for (let i = 0; i < arrayResultsErrors.length; i++) {
+    divResults.innerHTML += arrayResultsErrors[i][0];
+    divErrors.innerHTML += arrayResultsErrors[i][1];
+    if (i != arrayResultsErrors.length - 1) {
+      divResults.innerHTML += ", ";
+      divErrors.innerHTML += ", ";
     }
   }
-
-  div.innerHTML += " }";
-}
-
-//Print errors
-function printErrors(errors)
-{
-  var div = $('error');
-
-  div.innerHTML = "Errors approximation : {";
-
-  for (let i = 0; i < errors.length; i++) {
-    div.innerHTML += errors[i];
-    if (i != errors.length - 1) {
-      div.innerHTML += ", ";
-    }
-  }
-
-  div.innerHTML += " }";
+  divResults.innerHTML += " }";
+  divErrors.innerHTML += " }";
 }
