@@ -83,7 +83,11 @@ button, .inputFct{
 	margin-top: 2vh;
 	display: inline-block;
 	width: 14vw;
-	text-align: center;
+	text-align: right;
+}
+
+.resultTitle{
+	font-weight: bold;
 }
 
 footer{

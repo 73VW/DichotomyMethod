@@ -80,6 +80,7 @@ function plot(data) {
 
   window.addEventListener('resize',
   () =>    { Plotly.newPlot($('plotly'), data, layout); });
+
 }
 
 /***************/
@@ -100,7 +101,7 @@ function f2(x) {
 /*  Dichotomy functions                                      */
 /*************************************************************/
 
-// Dichotomy method. Must be performed on a continuous interval [a, b], which conatains a root.
+// Dichotomy method. Must be performed on a continuous interval [a, b] with a < b and a != -b, which conatains a root.
 // Input: a, b, function
 // Output: two values array [result, error]
 function dichotomy(f, a, b) {
@@ -225,8 +226,8 @@ function printSolutions(arrayResultsErrors) {
   var divResults = $('result');
   var divErrors = $('error');
 
-  divResults.innerHTML = "Root(s) of the function<br/>";
-  divErrors.innerHTML = "Relative error(s) approximation<br/>";
+  divResults.innerHTML = '<p class="resultTitle">Root(s) of the function</p>';
+  divErrors.innerHTML = '<p class="resultTitle">Relative error(s) approximation</p>';
 
   for (let i = 0; i < arrayResultsErrors.length; i++) {
     divResults.innerHTML += arrayResultsErrors[i][0];
