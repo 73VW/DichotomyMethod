@@ -40,8 +40,30 @@ h1{
 	margin: 0;
 	padding: 0;
 	padding-left: 4vw;
-	padding-right: 4vw;
 	margin-bottom: 10vh;
+}
+
+#plotly{
+	width:60vw;
+	height:30vw;
+	float: right;
+}
+
+form{
+	width: 28vw;
+	margin-top : 2vh;
+	text-align: center;
+}
+
+button{
+	width: 12vw;
+	margin-left: 8vw;
+}
+
+.inline-div{
+	display: inline-block;
+	width: 14vw;
+	text-align: center;
 }
 
 footer{
@@ -56,12 +78,4 @@ footer{
 	position: fixed;
 	bottom :0;
 	overflow-y: scroll;
-}
-
-canvas {
-    border: 1px solid black;
-    width: 500px;
-    height: 300px;
-	background-color: white;
-	margin: 20px;
 }

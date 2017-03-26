@@ -139,9 +139,11 @@ function calculateError(a, b, n)
 // Find all the valid intervals for the dichotomy method between [a, b].
 function findIntervals(f, a, b) {
   var intervals = [];
-
   while (a < b) {
-    if ((f(a) >= 0 && f(a+1) < 0) || (f(a) <= 0 && f(a+1) > 0)) { // Check if the interval contains a root
+    let fa = f(a);
+    let fa2 = f(a+1);
+    // Check if the interval contains a root
+    if ((fa >= 0  && fa!="Infinity" && fa2 < 0 && fa2!="-Infinity") || (fa <= 0 && fa2 > 0)) { 
       intervals.push([a, a+1]);
     }
     a++;
@@ -159,7 +161,6 @@ function findRoots(f, a, b) {
   for (let i = 0; i < intervals.length; i++) {
     arrayResultsErrors.push(dichotomy(f, intervals[i][0], intervals[i][1]));
   }
-
   return arrayResultsErrors;
 }
 
@@ -177,20 +178,17 @@ function solve() {
     data[0] = creatingData(listPoints, "f1");
 
     arrayResultsErrors = (findRoots(f1, -100, 100));
-  } else { // f2 is processed in three times because of the asymptotes
+  } 
+  else { // f2 is processed in three times because of the asymptotes
     var listPoints1 = generatePointsToDraw(f2, -100, -1);
     var listPoints2 = generatePointsToDraw(f2, -1, 1);
     var listPoints3 = generatePointsToDraw(f2, 1, 100);
 
-    data[0] = creatingData(listPoints1, '[-100, -1]');
-    data[1] = creatingData(listPoints2, '[-1, 1]');
-    data[2] = creatingData(listPoints3, '[1, 100]');
-
-    //arrayResultsErrors = (findRoots(f2, -100, -1)); 
-    arrayResultsErrors = (findRoots(f2, -1, 1));
-    //arrayResultsErrors += (findRoots(f2, 1, 100));
+    data[0] = creatingData(listPoints1, '[-100, -1[');
+    data[1] = creatingData(listPoints2, ']-1, 1[');
+    data[2] = creatingData(listPoints3, ']1, 100]');
+    arrayResultsErrors = findRoots(f2, -100, 100);
   }
-    console.log(arrayResultsErrors);
   printSolutions(arrayResultsErrors);
   plot(data);
 }
@@ -199,17 +197,15 @@ function printSolutions(arrayResultsErrors) {
   var divResults = $('result');
   var divErrors = $('error');
 
-  divResults.innerHTML = "Root(s) of the function : { ";
-  divErrors.innerHTML = "Errors approximation : {";
+  divResults.innerHTML = "Root(s) of the function<br/>";
+  divErrors.innerHTML = "Relative errors approximation<br/>";
 
   for (let i = 0; i < arrayResultsErrors.length; i++) {
     divResults.innerHTML += arrayResultsErrors[i][0];
     divErrors.innerHTML += arrayResultsErrors[i][1];
     if (i != arrayResultsErrors.length - 1) {
-      divResults.innerHTML += ", ";
-      divErrors.innerHTML += ", ";
+      divResults.innerHTML += "<br/>";
+      divErrors.innerHTML += "<br/>";
     }
   }
-  divResults.innerHTML += " }";
-  divErrors.innerHTML += " }";
 }
