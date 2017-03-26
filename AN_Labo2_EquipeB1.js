@@ -140,16 +140,16 @@ function calculateError(a, b, n)
 // Input: function, xStart, xStop, and periodicity if the function is a periodic function. The periodicity is useful in order
 // to have only one root by interval. if the function isn't periodic, the interval in which the roots are searched is 0.5
 // (small enough to find a unique root inside the interval).
-function findIntervals(f, a, b, periodicity = 0.5) {
+function findIntervals(f, a, b, periodicity = 1) {
   var intervals = [];
   while (a < b) {
     let fa = f(a);
-    let fa2 = f(a+periodicity);
+    let fa2 = f(a+periodicity/2);
     // Check if the interval contains a root and is not an asymptote
     if ((fa >= 0  && fa!="Infinity" && fa2 < 0 && fa2!="-Infinity") || (fa <= 0 && fa!="-Infinity" && fa2 > 0 && fa2!="Infinity")) {
-      intervals.push([a, a+periodicity]);
+      intervals.push([a, a+periodicity/2]);
     }
-    a+=periodicity;
+    a+=periodicity/2;
   }
 
   return intervals;
@@ -194,6 +194,18 @@ function solve() {
 
     arrayResultsErrors = findRoots(f2, -100, 100);
   }
+  printSolutions(arrayResultsErrors);
+  plot(data);
+}
+
+function solveCustom() {
+  var f = Function("x", "return " + $('f3').value);
+  var listPoints = generatePointsToDraw(f, -100, 100);
+  var data = [];
+  data[0] = creatingData(listPoints, "f3");
+
+  arrayResultsErrors = (findRoots(f, -100, 100));
+
   printSolutions(arrayResultsErrors);
   plot(data);
 }
