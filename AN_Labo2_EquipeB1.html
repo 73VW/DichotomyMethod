@@ -4,75 +4,79 @@
   <meta charset="utf-8">
   <title>Dichotomy Method</title>
   <link rel="stylesheet" href="style.css">
-  <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 </head>
 <body onload="solve();">
-  <header>
-    <h1>AN Labo2 EquipeB1</h1>
-    <h3 class="subheading">Solve with dichotomy method</h3>
-  </header>
+    <header>
+        <h1>AN Labo2 EquipeB1</h1>
+        <h3 class="subheading">Solve with dichotomy method</h3>
+    </header>
 
-  <section id="main">
-    <div id="plotly" style="width:60vw;height:30vw;padding-left:23vw;"></div>
-    <form>
-      <label>Choose the function to solve</label><br/>
-      <input type="radio" id="f1" name="function" value="f1" checked="checked" >
-      <label for="f1">
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <mi>sin</mi>
-          <mo>(</mo>
-          <mi>x</mi>
-          <mo>)</mo>
-          <mo>-</mo>
-          <mfrac>
-            <mrow>
-              <mi>x</mi>
-            </mrow>
-            <mn>13</mn>
-          </mfrac>
-        </math>
-      </label><br/>
-      <input type="radio" id="f2" name="function" value="f2" >
-      <label for="f2">
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-          <mfrac>
-            <mi>x</mi>
-            <mrow>
-              <mn>1</mn>
-              <mo>-</mo>
-              <msup>
-                <mi>x</mi>
-                <mn>2</mn>
-              </msup>
-            </mrow>
-          </mfrac>
-        </math>
-      </label>
-      <br/>
-    </form>
+    <section id="main">
+        <div id="plotly"></div>
+        <form>
+            <h3>Choose the function to solve</h3><br/>
+            <input type="radio" id="f1" name="function" value="f1" checked="checked" >
+            <label for="f1">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <mi>sin</mi>
+                    <mo>(</mo>
+                    <mi>x</mi>
+                    <mo>)</mo>
+                    <mo>-</mo>
+                    <mfrac>
+                        <mrow>
+                            <mi>x</mi>
+                        </mrow>
+                        <mn>13</mn>
+                    </mfrac>
+                </math>
+            </label><br/><br/>
+            <input type="radio" id="f2" name="function" value="f2" >
+            <label for="f2">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <mfrac>
+                        <mi>x</mi>
+                        <mrow>
+                            <mn>1</mn>
+                            <mo>-</mo>
+                            <msup>
+                                <mi>x</mi>
+                                <mn>2</mn>
+                            </msup>
+                        </mrow>
+                    </mfrac>
+                </math>
+            </label>
+            <br/>
+        </form>
+        <p>
+            <button type="button" name="solve" onclick="solve()" autofocus="autofocus">Solve</button>
+        </p>
+        <div id="result" class="inline-div"> </div>
+        <div id="error" class="inline-div"> </div>
+    </section>
 
-    <p>
-      <button type="button" name="solve" onclick="solve()" autofocus="autofocus">Solve</button>
-    </p>
-    <div id="result"> </div>
-    <div id="error"> </div>
-  </section>
+    <footer>
+        <h2>Explanations</h2><h3>The footer is also scrollable</h3>
+        <p>
+            <h4>All you have to do is choose the function you want to solve and hit the solve button</h4>
+            <h4>Details:</h4>
+            This projects implements the equations solving dichotomy method.
+            The resolution is as follows:
+            <ul>
+                <li>Searching for intervals containig roots</li>
+                <li>Finding the root in each interval</li>
+                <li>Calculate the relative error</li>
+            </ul>
+        </p>
 
-  <!--<footer>
-    <h3>Explications</h3>
-
-    <p>(Utiliser la molette en pointant sur le bloc pour faire défiler les explications)</p>
-
-    <p>
-      TODO
-    </p>
-
-    <p>
-      Quentin Vaucher -- Axel Rieben -- Maël Pedretti ----- Groupe B1 ----- Algo Num, HE-Arc 2017
-    </p>
-  </footer>-->
+        <p>
+          Quentin Vaucher -- Axel Rieben -- Maël Pedretti ----- Groupe B1 ----- Algo Num, HE-Arc 2017
+      </p>
+  </footer>
   <script type="text/javascript" src="AN_Labo2_EquipeB1.js"></script>
 </body>
 </html>
