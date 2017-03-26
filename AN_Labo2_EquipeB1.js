@@ -220,7 +220,7 @@ function printSolutions(arrayResultsErrors) {
   var divErrors = $('error');
 
   divResults.innerHTML = '<p class="resultTitle">Root(s) of the function</p>';
-  divErrors.innerHTML = '<p Relative error(s) approximation</p>';
+  divErrors.innerHTML = '<p class="resultTitle">Relative error(s) approximation</p>';
 
   for (let i = 0; i < arrayResultsErrors.length; i++) {
     divResults.innerHTML += arrayResultsErrors[i][0];
