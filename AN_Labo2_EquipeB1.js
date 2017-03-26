@@ -78,8 +78,8 @@ function plot(data) {
 
   Plotly.newPlot($('plotly'), data, layout);
 
-  window.addEventListener('resize', 
-    () =>    { Plotly.newPlot($('plotly'), data, layout); });
+  window.addEventListener('resize',
+  () =>    { Plotly.newPlot($('plotly'), data, layout); });
 }
 
 /***************/
@@ -155,12 +155,13 @@ function findIntervals(f, a, b, periodicity = 1) {
     a+=periodicity/2;
   }
 
+  console.log(periodicity);
   return intervals;
 }
 
 // Find every roots with their error.
 // Output: array of arrays [[result, error], [..., ...]]
-function findRoots(f, a, b, periodicity = 0.5) {
+function findRoots(f, a, b, periodicity = 1) {
   var intervals = findIntervals(f, a, b, periodicity);
   var arrayResultsErrors = [];
 
@@ -184,7 +185,7 @@ function solve() {
 
     data[0] = creatingData(listPoints, "f1");
 
-    arrayResultsErrors = (findRoots(f1, -100, 100, 1/30));
+    arrayResultsErrors = (findRoots(f1, -100, 100));
   }
   else { // f2 is drawn in three times because of the asymptotes
     var listPoints1 = generatePointsToDraw(f2, -100, -1);
@@ -203,11 +204,16 @@ function solve() {
 
 function solveCustom() {
   var f = Function("x", "return " + $('f3').value);
-  var listPoints = generatePointsToDraw(f, -100, 100);
+  var periodicity = 1;
   var data = [];
+  var listPoints = generatePointsToDraw(f, -100, 100);
   data[0] = creatingData(listPoints, "f3");
 
-  arrayResultsErrors = (findRoots(f, -100, 100));
+  if ($('periodicity').value) { // make sure the user write something in here
+    periodicity = Number($('periodicity').value);
+  }
+
+  arrayResultsErrors = (findRoots(f, -100, 100, periodicity));
 
   printSolutions(arrayResultsErrors);
   plot(data);
