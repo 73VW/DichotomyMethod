@@ -136,17 +136,20 @@ function calculateError(a, b, n)
   return (b - a) / (2 * Math.pow(2, n)); //for each step the error is diminished by half
 }
 
-// Find all the valid intervals for the dichotomy method between [a, b].
-function findIntervals(f, a, b) {
+// Find all the valid (= containing a root) intervals for the dichotomy method between [a, b].
+// Input: function, xStart, xStop, and periodicity if the function is a periodic function. The periodicity is useful in order
+// to have only one root by interval. if the function isn't periodic, the interval in which the roots are searched is 0.5
+// (small enough to find a unique root inside the interval).
+function findIntervals(f, a, b, periodicity = 0.5) {
   var intervals = [];
   while (a < b) {
     let fa = f(a);
-    let fa2 = f(a+0.5);
-    // Check if the interval contains a root
+    let fa2 = f(a+periodicity);
+    // Check if the interval contains a root and is not an asymptote
     if ((fa >= 0  && fa!="Infinity" && fa2 < 0 && fa2!="-Infinity") || (fa <= 0 && fa!="-Infinity" && fa2 > 0 && fa2!="Infinity")) {
-      intervals.push([a, a+0.5]);
+      intervals.push([a, a+periodicity]);
     }
-    a+=0.5;
+    a+=periodicity;
   }
 
   return intervals;
@@ -154,10 +157,11 @@ function findIntervals(f, a, b) {
 
 // Find every roots with their error.
 // Output: array of arrays [[result, error], [..., ...]]
-function findRoots(f, a, b) {
-  var intervals = findIntervals(f, a, b);
+function findRoots(f, a, b, periodicity = 0.5) {
+  var intervals = findIntervals(f, a, b, periodicity);
   var arrayResultsErrors = [];
 
+  // For each interval which contains a root, we search it with the Dichotomy method
   for (let i = 0; i < intervals.length; i++) {
     arrayResultsErrors.push(dichotomy(f, intervals[i][0], intervals[i][1]));
   }
@@ -168,7 +172,7 @@ function findRoots(f, a, b) {
 /*  HTML interactions	 */
 /***********************/
 
-// Launch the plotting according to which function was chosen.
+// Launch the plotting and the dochotomy method according to which function was chosen.
 function solve() {
   var data = [];
   var arrayResultsErrors;
@@ -177,9 +181,9 @@ function solve() {
 
     data[0] = creatingData(listPoints, "f1");
 
-    arrayResultsErrors = (findRoots(f1, -100, 100));
+    arrayResultsErrors = (findRoots(f1, -100, 100, 1/30));
   }
-  else { // f2 is processed in three times because of the asymptotes
+  else { // f2 is drawn in three times because of the asymptotes
     var listPoints1 = generatePointsToDraw(f2, -100, -1);
     var listPoints2 = generatePointsToDraw(f2, -1, 1);
     var listPoints3 = generatePointsToDraw(f2, 1, 100);
@@ -187,12 +191,15 @@ function solve() {
     data[0] = creatingData(listPoints1, '[-100, -1[');
     data[1] = creatingData(listPoints2, ']-1, 1[');
     data[2] = creatingData(listPoints3, ']1, 100]');
+
     arrayResultsErrors = findRoots(f2, -100, 100);
   }
   printSolutions(arrayResultsErrors);
   plot(data);
 }
 
+// Print the roots and their error
+// Input: Array of array which contains each root and its error [[root, error]]
 function printSolutions(arrayResultsErrors) {
   var divResults = $('result');
   var divErrors = $('error');
