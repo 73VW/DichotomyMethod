@@ -153,14 +153,17 @@ function findIntervals(f, a, b) {
 // Find every roots and print them with their error.
 function findRoots(f, a, b) {
   var intervals = findIntervals(f, a, b);
+  var results = [];
+  var errors = [];
   var arrayResultError = [];
 
   for (let i = 0; i < intervals.length; i++) {
-    arrayResultError.push(dichotomy(f, intervals[i][0], intervals[i][1]));
+    results.push(dichotomy(f, intervals[i][0], intervals[i][1])[0]);
+    errors.push(dichotomy(f, intervals[i][0], intervals[i][1])[1]);
   }
 
-  printSolution(arrayResultError[0]);
-  printError(arrayResultError[1]);
+  printSolutions(results);
+  printErrors(errors);
 }
 
 /***********************/
@@ -191,27 +194,35 @@ function solve() {
 }
 
 //Print the solutions
-function printSolution(results)
+function printSolutions(results)
 {
   var div = $('result');
+
   div.innerHTML = "Root(s) of the function : { ";
 
-  for(var i = 0; i < results.length; i++) {
-    div.innerHTML += results[i] + " ";
+  for (let i = 0; i < results.length; i++) {
+    div.innerHTML += results[i];
+    if (i != results.length - 1) {
+      div.innerHTML += ", ";
+    }
   }
 
-  div.innerHTML += "}";
+  div.innerHTML += " }";
 }
 
 //Print errors
-function printError(errors)
+function printErrors(errors)
 {
   var div = $('error');
-  div.innerHTML = "Errors approximation : { ";
 
-  for(var i = 0; i < errors.length; i++) {
-    div.innerHTML += errors[i] + " ";
+  div.innerHTML = "Errors approximation : {";
+
+  for (let i = 0; i < errors.length; i++) {
+    div.innerHTML += errors[i];
+    if (i != errors.length - 1) {
+      div.innerHTML += ", ";
+    }
   }
 
-  div.innerHTML += "}";
+  div.innerHTML += " }";
 }
