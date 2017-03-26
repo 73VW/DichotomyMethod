@@ -141,12 +141,12 @@ function findIntervals(f, a, b) {
   var intervals = [];
   while (a < b) {
     let fa = f(a);
-    let fa2 = f(a+1);
+    let fa2 = f(a+0.5);
     // Check if the interval contains a root
-    if ((fa >= 0  && fa!="Infinity" && fa2 < 0 && fa2!="-Infinity") || (fa <= 0 && fa2 > 0)) { 
-      intervals.push([a, a+1]);
+    if ((fa >= 0  && fa!="Infinity" && fa2 < 0 && fa2!="-Infinity") || (fa <= 0 && fa!="-Infinity" && fa2 > 0 && fa2!="Infinity")) {
+      intervals.push([a, a+0.5]);
     }
-    a++;
+    a+=0.5;
   }
 
   return intervals;
@@ -178,7 +178,7 @@ function solve() {
     data[0] = creatingData(listPoints, "f1");
 
     arrayResultsErrors = (findRoots(f1, -100, 100));
-  } 
+  }
   else { // f2 is processed in three times because of the asymptotes
     var listPoints1 = generatePointsToDraw(f2, -100, -1);
     var listPoints2 = generatePointsToDraw(f2, -1, 1);
@@ -198,7 +198,7 @@ function printSolutions(arrayResultsErrors) {
   var divErrors = $('error');
 
   divResults.innerHTML = "Root(s) of the function<br/>";
-  divErrors.innerHTML = "Relative errors approximation<br/>";
+  divErrors.innerHTML = "Relative error(s) approximation<br/>";
 
   for (let i = 0; i < arrayResultsErrors.length; i++) {
     divResults.innerHTML += arrayResultsErrors[i][0];
