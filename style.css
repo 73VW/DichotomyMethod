@@ -9,7 +9,6 @@ body{
 	margin: 0;
 	color: white;
 	font-size: 1.8vh;
-	margin-bottom: 20vh;
 }
 
 header{
@@ -36,32 +35,39 @@ h1{
 }
 
 #main{
-	height: 100vh;
 	width: 92vw;
 	margin: 0;
 	padding: 0;
 	padding-left: 4vw;
-	margin-bottom: 10vh;
+	padding-bottom: 30vh;
 }
 
 #plotly{
-	width:60vw;
-	height:30vw;
-	float: right;
+	width: 60vw;
+	height: 60vh;
+	position: fixed;
+	top: 15vh;
+	right: 4vw;
 }
 
 form{
-	width: 28vw;
-	margin-top : 2vh;
+	margin: 0;
+	width: 15vw;
 	text-align: center;
+	display: inline-block;
 }
 
-button{
+.secondForm{
+	border-left: 2px solid white;
+}
+
+
+button, .inputFct{
 	width: 12vw;
-	margin-left: 8vw;
 }
 
 .inline-div{
+	margin-top: 2vh;
 	display: inline-block;
 	width: 14vw;
 	text-align: center;

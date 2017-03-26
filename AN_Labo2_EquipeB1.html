@@ -17,7 +17,7 @@
     <section id="main">
         <div id="plotly"></div>
         <form>
-            <h3>Choose the function to solve</h3><br/>
+            <h4>Choose the function to solve</h4><br/>
             <input type="radio" id="f1" name="function" value="f1" checked="checked" >
             <label for="f1">
                 <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -49,18 +49,17 @@
                         </mrow>
                     </mfrac>
                 </math>
-            </label>
-            <br/>
+            </label><br/><br/>
+            <button type="button" name="solveFct" onclick="solve();" autofocus="autofocus">Solve</button>
         </form>
-        <h3>Solve your own function</h3>
-        <p>You have to write it in JavaScript. For example sinus is writen like this: Math.sin(x) and log2(x) like that: Math.log(x,2)</p>
-        <form>
-          <input type="text" name="f3" id="f3">
-          <button type="button" name="Sovle" onclick="solveCustom()">Solve</button>
+        <form class="secondForm">
+            <h4>Solve your own function</h4>
+            <label for="f3">You have to write it in JavaScript. For example sinus is writen like this: Math.sin(x) and log2(x) like that: Math.log(x,2)</label>
+            <input type="text" name="f3" id="f3" class="inputFct" placeholder="Enter function">
+            <input type="text" name="periodicity" id="periodicity" placeholder="Enter periodicity" class="inputFct">
+            <button type="button" name="solveCustomFct" onclick="solveCustom();" class="solveCustom">Solve your custom function</button>
         </form>
-        <p>
-            <button type="button" name="solve" onclick="solve()" autofocus="autofocus">Solve</button>
-        </p>
+        <br/>
         <div id="result" class="inline-div"> </div>
         <div id="error" class="inline-div"> </div>
     </section>

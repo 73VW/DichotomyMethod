@@ -77,6 +77,9 @@ function plot(data) {
   };
 
   Plotly.newPlot($('plotly'), data, layout);
+
+  window.addEventListener('resize', 
+    () =>    { Plotly.newPlot($('plotly'), data, layout); });
 }
 
 /***************/
