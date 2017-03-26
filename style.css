@@ -86,6 +86,10 @@ button, .inputFct{
 	text-align: center;
 }
 
+.resultTitle{
+	font-weight: bold;
+}
+
 footer{
 	color: rgb(4,147,114);
 	height: 20vh;
