@@ -19,6 +19,8 @@
           <button type="button" name="nextStep" id="nextStep" onclick="nextStep()">Next step</button>
         </div>
         <form>
+        <div id="plotly"></div>
+        <form class="firstForm">
             <h4>Choose the function to solve</h4><br/>
             <input type="radio" id="f1" name="function" value="f1" checked="checked" >
             <label for="f1">
@@ -56,8 +58,10 @@
         </form>
         <form class="secondForm">
             <h4>Solve your own function</h4>
-            <label for="f3">You have to write it in JavaScript.<br/>For example sinus is writen like this: Math.sin(x) and log2(x) like that: Math.log(x,2)   <a href="https://www.w3schools.com/js/js_math.asp" target="blank">RTFM Here</a></label>
+            <p>You have to write it in JavaScript.<br/>For example sinus is writen like this: Math.sin(x) and log2(x) like that: Math.log(x,2) <a href="https://www.w3schools.com/js/js_math.asp" target="blank">RTFM Here</a><p>
+            <label for="f3">Your function</label>
             <input type="text" name="f3" id="f3" class="inputFct" placeholder="Enter function">
+            <label for="smallestInterval">Smallest interval between roots</label>
             <input type="text" name="smallestInterval" id="smallestInterval" placeholder="Smallest interval" class="inputFct" value="0.5">
             <button type="button" name="solveCustomFct" onclick="solveCustom();" class="solveCustom">Solve your custom function</button>
         </form>

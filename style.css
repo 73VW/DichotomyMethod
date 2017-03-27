@@ -12,7 +12,7 @@ body{
 }
 
 a{
-	color:black;
+	color: DarkGray;
 	text-decoration: none;
 }
 
@@ -21,7 +21,7 @@ a:hover{
 }
 
 a:active{
-	color: black;
+	color: DarkGray;
 }
 
 header{
@@ -70,8 +70,18 @@ form{
 	display: inline-block;
 }
 
+.firstForm{
+	float: top;
+}
+
 .secondForm{
 	border-left: 2px solid white;
+}
+
+button{
+	margin-top: 5px;
+	background-color: white;
+	color: rgb(4,147,114);
 }
 
 

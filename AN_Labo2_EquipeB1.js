@@ -47,10 +47,10 @@ function creatingData(listPoints, name) {
       color: 'rgb(41, 128, 185)'
     },
     line: {
-      width: 4
+      width: 2
     }
   };
-  return data
+  return data;
 }
 
 // Plot the graph according to the given points
@@ -66,13 +66,13 @@ function plot(data) {
       range: [-100,100],
       title: 'x',
       zeroline: true,
-      zerolinewidth: 3
+      zerolinewidth: 2
     },
     yaxis: {
       range: [-20,20],
       title: 'f(x)',
       zeroline: true,
-      zerolinewidth: 4
+      zerolinewidth: 2
     },
     title: "Dichotomy method"
   };
