@@ -56,7 +56,7 @@
             <h4>Solve your own function</h4>
             <label for="f3">You have to write it in JavaScript.<br/>For example sinus is writen like this: Math.sin(x) and log2(x) like that: Math.log(x,2)   <a href="https://www.w3schools.com/js/js_math.asp" target="blank">RTFM Here</a></label>
             <input type="text" name="f3" id="f3" class="inputFct" placeholder="Enter function">
-            <input type="text" name="periodicity" id="periodicity" placeholder="Enter periodicity" class="inputFct" value="1">
+            <input type="text" name="smallestInterval" id="smallestInterval" placeholder="Smallest interval" class="inputFct" value="0.5">
             <button type="button" name="solveCustomFct" onclick="solveCustom();" class="solveCustom">Solve your custom function</button>
         </form>
         <br/>
@@ -69,7 +69,7 @@
         <p>
             <h4>All you have to do is choose the function you want to solve and hit the solve button</h4>
             <h4>Details:</h4>
-            This projects implements the equations solving dichotomy method.
+            This project implements the equations solving dichotomy method.
             The resolution is as follows:
             <ul>
                 <li>Searching for intervals containig roots</li>
@@ -77,7 +77,12 @@
                 <li>Calculate the relative error</li>
             </ul>
         </p>
-
+        <p>
+          <h4>If you want to solve your own function, here's the details:</h4>
+          The first input is for the function, but be aware that you have to write it in JavaScript (cf. RTFM). The independant variable is "x". </br>
+          The second input has to be specified if the function have two roots whose interval is closer than 0.5 (e.g. high frequency sinus), </br>
+          in order to search roots in smaller intervals (otherwise the function won't be able to find every root!).
+        </p>
         <p>
           Quentin Vaucher -- Axel Rieben -- Maël Pedretti ----- Groupe B1 ----- Algo Num, HE-Arc 2017
       </p>

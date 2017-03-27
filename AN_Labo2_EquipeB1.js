@@ -73,7 +73,7 @@ function plot(data) {
       zeroline: true,
       zerolinewidth: 4
     },
-    title: "Dichotomy method",
+    title: "Dichotomy method"
   };
 
   Plotly.newPlot($('plotly'), data, layout);
@@ -141,29 +141,29 @@ function calculateError(a, b, n)
 }
 
 // Find all the valid (= containing a root) intervals for the dichotomy method between [a, b].
-// Input: function, xStart, xStop, and periodicity if the function is a periodic function. The periodicity is useful in order
-// to have only one root by interval. if the function isn't periodic, the interval in which the roots are searched is 0.5
+// Input: function, xStart, xStop, and smallestInterval if the function is a periodic function. The smallestInterval is useful in order
+// to have only one root by interval. By default, the interval in which the roots are searched is 0.5
 // (small enough to find a unique root inside the interval).
-function findIntervals(f, a, b, periodicity = 1) {
+function findIntervals(f, a, b, smallestInterval = 0.5) {
   var intervals = [];
   while (a < b) {
     let fa = f(a);
-    let fa2 = f(a+periodicity/2);
+    let fa2 = f(a+smallestInterval);
     // Check if the interval contains a root and is not an asymptote
     if ((fa >= 0  && fa!="Infinity" && fa2 < 0 && fa2!="-Infinity") || (fa <= 0 && fa!="-Infinity" && fa2 > 0 && fa2!="Infinity")) {
-      intervals.push([a, a+periodicity/2]);
+      intervals.push([a, a+smallestInterval]);
     }
-    a+=periodicity/2;
+    a+=smallestInterval;
   }
 
-  console.log(periodicity);
+  console.log(smallestInterval);
   return intervals;
 }
 
 // Find every roots with their error.
 // Output: array of arrays [[result, error], [..., ...]]
-function findRoots(f, a, b, periodicity = 1) {
-  var intervals = findIntervals(f, a, b, periodicity);
+function findRoots(f, a, b, smallestInterval = 0.5) {
+  var intervals = findIntervals(f, a, b, smallestInterval);
   var arrayResultsErrors = [];
 
   // For each interval which contains a root, we search it with the Dichotomy method
@@ -205,16 +205,16 @@ function solve() {
 
 function solveCustom() {
   var f = Function("x", "return " + $('f3').value);
-  var periodicity = 1;
+  var smallestInterval = 0.5;
   var data = [];
   var listPoints = generatePointsToDraw(f, -100, 100);
   data[0] = creatingData(listPoints, "f3");
 
-  if ($('periodicity').value) { // make sure the user write something in here
-    periodicity = Number($('periodicity').value);
+  if ($('smallestInterval').value) { // make sure the user write something in here
+    smallestInterval = Number($('smallestInterval').value);
   }
 
-  arrayResultsErrors = (findRoots(f, -100, 100, periodicity));
+  arrayResultsErrors = (findRoots(f, -100, 100, smallestInterval));
 
   printSolutions(arrayResultsErrors);
   plot(data);
