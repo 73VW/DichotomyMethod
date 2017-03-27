@@ -259,7 +259,7 @@ function nextStep() {
       x: [dichotomyIntervals[i][0], dichotomyIntervals[i][0]],
       y: [10, -10],
       mode: 'lines',
-      showlegend: false,
+      name: 'dichotomy\'s intervals',
       line: {
         width: 4
       }
@@ -269,7 +269,7 @@ function nextStep() {
       x: [dichotomyIntervals[i][1], dichotomyIntervals[i][1]],
       y: [10, -10],
       mode: 'lines',
-      showlegend: false,
+      name: 'dichotomy\'s intervals',
       line: {
         width: 4
       }
