@@ -41,6 +41,7 @@ function creatingData(listPoints, name) {
     x: listPoints[0],
     y: listPoints[1],
     mode: 'lines',
+    type: 'scattergl',
     name: name,
     marker: {
       color: 'rgb(41, 128, 185)'
@@ -101,6 +102,8 @@ function f2(x) {
 /*  Dichotomy functions                                      */
 /*************************************************************/
 
+var dichotomyIntervals = [];
+
 // Dichotomy method. Must be performed on a continuous interval [a, b] with a < b and a != -b, which conatains a root.
 // Input: a, b, function
 // Output: two values array [result, error]
@@ -115,6 +118,8 @@ function dichotomy(f, a, b) {
   var fm;
   var n = 0; // number of steps
 
+  dichotomyIntervals.push([a, b]);
+
   while((mNew - mOld) != 0) {
     mOld = mNew;
     mNew = (a + b) / 2;
@@ -126,6 +131,8 @@ function dichotomy(f, a, b) {
       a = mNew;
       fa = fm;
     }
+
+    dichotomyIntervals.push([a, b]);
 
     n++;
   }
@@ -156,7 +163,6 @@ function findIntervals(f, a, b, smallestInterval = 0.5) {
     a+=smallestInterval;
   }
 
-  console.log(smallestInterval);
   return intervals;
 }
 
@@ -181,6 +187,10 @@ function findRoots(f, a, b, smallestInterval = 0.5) {
 function solve() {
   var data = [];
   var arrayResultsErrors;
+
+  i = 0;
+  dichotomyIntervals = [];
+
   if ($('f1').checked) {
     var listPoints = generatePointsToDraw(f1, -100, 100);
 
@@ -237,4 +247,55 @@ function printSolutions(arrayResultsErrors) {
       divErrors.innerHTML += "<br/>";
     }
   }
+}
+
+var i = 0;
+function nextStep() {
+  var f = $('f1').checked ? f1 : f2;
+  var traceNb = $('f1').checked ? [1, 2] : [3, 4];
+
+  if(i == 0) {
+    Plotly.plot($('plotly'), [{
+      x: [dichotomyIntervals[i][0], dichotomyIntervals[i][0]],
+      y: [10, -10],
+      mode: 'lines',
+      showlegend: false,
+      line: {
+        width: 4
+      }
+    }]);
+
+    Plotly.plot($('plotly'), [{
+      x: [dichotomyIntervals[i][1], dichotomyIntervals[i][1]],
+      y: [10, -10],
+      mode: 'lines',
+      showlegend: false,
+      line: {
+        width: 4
+      }
+    }]);
+  }
+
+  Plotly.animate($('plotly'), {
+    data: [{x: [dichotomyIntervals[i][0], dichotomyIntervals[i][0]]}],
+    traces: [traceNb[0]]
+  });
+
+  Plotly.animate($('plotly'), {
+    data: [{x: [dichotomyIntervals[i][1], dichotomyIntervals[i][1]]}],
+    traces: [traceNb[1]]
+  });
+
+  Plotly.animate($('plotly'), {
+    layout: {
+      xaxis: {range: [dichotomyIntervals[i][0]-Math.abs(dichotomyIntervals[i][0]-dichotomyIntervals[i][1]), dichotomyIntervals[i][1]+Math.abs(dichotomyIntervals[i][0]-dichotomyIntervals[i][1])]}
+    }
+  }, {
+    transition: {
+      duration: 5,
+      easing: 'cubic-in-out'
+    }
+  });
+
+  i++;
 }
