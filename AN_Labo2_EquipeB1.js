@@ -292,7 +292,7 @@ function nextStep() {
     }
   }, {
     transition: {
-      duration: 5,
+      duration: 750,
       easing: 'cubic-in-out'
     }
   });
